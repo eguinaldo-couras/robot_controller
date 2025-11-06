@@ -3,6 +3,7 @@ from PySide6.QtWidgets import QApplication
 from PySide6.QtQml import QQmlApplicationEngine
 from controllers.position_controller import PositionController
 from utils.robot_singleton import RobotSingletonRCP
+from db.db_manager import DB_Manager
 import sys
 
 
@@ -15,6 +16,12 @@ def main() -> None:
     robot = RobotSingletonRCP("192.168.15.8")
     robot.RobotEnable(True)
     robot.DragTeachSwitch(False)
+
+
+
+    db = DB_Manager()
+    db.init_database()
+
 
     controller = PositionController()
     engine.rootContext().setContextProperty("PositionController", controller)

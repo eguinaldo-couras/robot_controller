@@ -8,6 +8,9 @@ git clone https://github.com/FAIR-INNOVATION/fairino-python-sdk.git
 
 ----- configurar o SDK fairino -----
 
+cd fairino
+pip install . --no-build-isolation
+
 cd ..
 
 python3 src/main.py

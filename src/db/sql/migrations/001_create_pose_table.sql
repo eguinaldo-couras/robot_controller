@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS cartesian_pose (
   id         INTEGER PRIMARY KEY AUTOINCREMENT,
-  robot_ip   TEXT NOT NULL,
+  name       TEXT NOT NULL,
   x          REAL NOT NULL,
   y          REAL NOT NULL,
   z          REAL NOT NULL,
