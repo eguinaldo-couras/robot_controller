@@ -13,7 +13,6 @@ class PositionRepository:
     def insert_pose(self, pose: PositionModel) -> None:
         sql = self.db.load_sql("poses", "insert_pose.sql")
         self.db.execute(sql, {
-            "robot_ip": pose.robot_ip,
             "name": pose.name,  
             "x": pose.x,
             "y": pose.y,

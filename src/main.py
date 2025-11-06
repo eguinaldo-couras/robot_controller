@@ -8,6 +8,9 @@ import sys
 
 
 def main() -> None:
+    db = DB_Manager()
+    db.init_database()
+    
     app = QApplication(sys.argv)
     engine = QQmlApplicationEngine()
 
@@ -19,8 +22,6 @@ def main() -> None:
 
 
 
-    db = DB_Manager()
-    db.init_database()
 
 
     controller = PositionController()

@@ -24,7 +24,6 @@ class PositionController(QObject):
         points = PositionModel(
             id=None,
             name=name,
-            robot_ip="192.168.15.8",
             x=x,
             y=y,
             z=z,
@@ -60,7 +59,6 @@ class PositionController(QObject):
         pose = PositionModel(
             id=None,
             name=name,
-            robot_ip="192.168.15.8", 
             x=x,
             y=y,
             z=z,
@@ -84,7 +82,6 @@ class PositionController(QObject):
         pose = PositionModel(
             id=None,
             name=name,
-            robot_ip="192.168.15.8",
             x=x, 
             y=y, 
             z=z,

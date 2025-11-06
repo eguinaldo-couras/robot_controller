@@ -34,6 +34,7 @@ fairino/
 src/fairino/
 third_party/fairino/
 vendor/fairino/
+*.db
 *.whl
 *.spec
 *.manifest

@@ -1,6 +1,5 @@
 INSERT INTO cartesian_pose (
     name,
-    robot_ip, 
     x, 
     y, 
     z, 
@@ -10,7 +9,6 @@ INSERT INTO cartesian_pose (
 )
 VALUES (
     :name, 
-    :robot_ip, 
     :x, 
     :y, 
     :z, 
