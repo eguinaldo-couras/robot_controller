@@ -46,7 +46,7 @@ class RobotService:
         self._repo.insert_pose(robotModel)    
 
     def move(self, points: PositionModel):
-        print("Movendo o robo para a posicao salva")
+        
         robot = RobotSingletonRCP()
         timestamp = datetime.now().isoformat()
         ip_result = robot.GetControllerIP()
@@ -68,5 +68,6 @@ class RobotService:
         if(isinstance(result, tuple)):
             error, position = result
             if(error != 0): return False
-            success = robot.MoveJ(joint_pos = position, tool = 0, user = 0, vel = 30)
+            success = robot.MoveJ(joint_pos = position, tool = 0, user = 2, vel = 200)
+            print("Movendo o robo para a posicao salva", success)
             return bool(success == 0)

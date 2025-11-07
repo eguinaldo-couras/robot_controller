@@ -5,7 +5,6 @@ from typing import Optional, Any
 class PositionModel:
     id: Optional[int] = None
     name: Optional[Any] = None
-    robot_ip: Optional[str] = None 
     x: float = 0
     y: float = 0
     z: float = 0

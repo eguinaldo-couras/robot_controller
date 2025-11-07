@@ -9,12 +9,7 @@ ApplicationWindow {
     visible: true
     title: "Robotine Controller"
 
-    width: 1600
-    height: 900
-    minimumWidth: width
-    maximumWidth: width
-    minimumHeight: height
-    maximumHeight: height
+    visibility: Window.Maximized
     
 
     Rectangle {
@@ -28,7 +23,7 @@ ApplicationWindow {
                 Layout.preferredWidth: 220
                 Layout.fillHeight: true
 
-                onPageSelected: {
+                onPageSelected: function(pageName) {
                     console.log("Mudando para:", pageName)
 
                     const pageUrl = Qt.resolvedUrl("pages/" + pageName + "Page.qml")
