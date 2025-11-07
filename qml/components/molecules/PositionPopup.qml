@@ -1,25 +1,24 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
+import QtQuick.Window 2.15   // para Screen se quiser usar
 import "../atoms"
-
-import QtQuick 2.15
-import QtQuick.Controls 2.15
 
 Popup {
     id: toast
     modal: true
     focus: true
-    width: 600
-    height: 650
-    anchors.centerIn: parent
-
+    parent: Overlay.overlay               
+    anchors.centerIn: Overlay.overlay      
     closePolicy: Popup.CloseOnPressOutside
+
+    width:  Math.min(Overlay.overlay.width  * 0.60, 900)
+    height: Math.min(Overlay.overlay.height * 0.80, 700)
 
     property string mainButtonText: "Salvar"
     property var poses
     property string actualPositionName: ""
-    property string id: ""
+    property string poseId: "" 
     property alias positionName: textInput.text
     property alias poseXValue: poseX.value
     property alias poseYValue: poseY.value
@@ -31,26 +30,23 @@ Popup {
     signal mainButtonClicked()
     
     background: Rectangle {
-        width: toast.width
-        height: toast.height
-        color: '#eeeeee'
+        anchors.fill: parent
+        color: "#eeeeee"
         radius: 20
         border.color: "#d0d0d0"
     }
 
     enter: Transition {
         NumberAnimation { property: "opacity"; from: 0; to: 1; duration: 180 }
-        NumberAnimation { property: "scale"; from: 0.9; to: 1; duration: 180; easing.type: Easing.OutCubic }
+        NumberAnimation { property: "scale"; from: 0.96; to: 1; duration: 180; easing.type: Easing.OutCubic }
     }
-
     exit: Transition {
-        NumberAnimation { property: "opacity"; from: 1; to: 0; duration: 180 }
-        NumberAnimation { property: "scale"; from: 1; to: 0.9; duration: 180; easing.type: Easing.InCubic }
+        NumberAnimation { property: "opacity"; from: 1; to: 0; duration: 160 }
+        NumberAnimation { property: "scale"; from: 1; to: 0.96; duration: 160; easing.type: Easing.InCubic }
     }
 
     Connections {
         target: PositionController
-
         function onCurrentPoseLoaded(pose) {
             textInput.text = actualPositionName
             poseX.value = pose.x.toFixed(2)
@@ -64,32 +60,31 @@ Popup {
 
     ColumnLayout {
         anchors.fill: parent
-        anchors.margins: 10
-        spacing: 20
+        anchors.margins: 14
+        spacing: 5
 
         Label {
             text: `${mainButtonText} nova posição`
             color: "#525252"
             font.bold: true
             Layout.alignment: Qt.AlignHCenter
-            Layout.topMargin: 20
+            Layout.topMargin: 6
         }
+
+        Rectangle { height: 1; color: "#b8b8b8"; Layout.fillWidth: true }
 
         Rectangle {
             id: background
             Layout.fillWidth: true
             Layout.preferredHeight: 55
-            Layout.margins: 12 
+            Layout.margins: 6
             radius: height / 2
             color: "#ffffff"
-
             property string placeholder: "Insira o nome da posição"
 
             RowLayout {
-                id: row
                 anchors.fill: parent
                 spacing: 8
-
                 TextField {
                     id: textInput
                     Layout.fillWidth: true
@@ -106,45 +101,32 @@ Popup {
             }
         }
 
-        Rectangle {
-            height: 1
-            color: '#b8b8b8'
-            Layout.fillWidth: true
-            Layout.margins: 1
-        }
-
         GridLayout {
             id: grid
             columns: 3
             rowSpacing: 10
             columnSpacing: 10
-            Layout.leftMargin: 20
-            Layout.rightMargin: 20
+            Layout.leftMargin: 8
+            Layout.rightMargin: 8
             Layout.alignment: Qt.AlignHCenter
 
-            PoseInput { id: poseX; nameInput: "Pose X"; value: poses ? `${poses.posX}` : "0.0"}
-            PoseInput { id: poseY; nameInput: "Pose X"; value: poses ? `${poses.posY}`: "0.0"}
-            PoseInput { id: poseZ; nameInput: "Pose X"; value: poses ? `${poses.posZ}`: "0.0"}
-            PoseInput { id: poseRX; nameInput: "Pose RX"; value: poses ? `${poses.posRX}`: "0.0"}
-            PoseInput { id: poseRY; nameInput: "Pose RY"; value: poses ? `${poses.posRY}`: "0.0"}
-            PoseInput { id: poseRZ; nameInput: "Pose RZ"; value: poses ? `${poses.posRZ}`: "0.0"}
+            PoseInput { id: poseX;  nameInput: "Pose X";  value: poses ? `${poses.posX}`  : "0.0" }
+            PoseInput { id: poseY;  nameInput: "Pose Y";  value: poses ? `${poses.posY}`  : "0.0" }
+            PoseInput { id: poseZ;  nameInput: "Pose Z";  value: poses ? `${poses.posZ}`  : "0.0" }  // ⬅ label corrigido
+            PoseInput { id: poseRX; nameInput: "Pose RX"; value: poses ? `${poses.posRX}` : "0.0" }
+            PoseInput { id: poseRY; nameInput: "Pose RY"; value: poses ? `${poses.posRY}` : "0.0" }
+            PoseInput { id: poseRZ; nameInput: "Pose RZ"; value: poses ? `${poses.posRZ}` : "0.0" }
         }
 
-        RowLayout{
-            id: positionButtons
+        RowLayout {
             Layout.fillWidth: true
-            Layout.alignment: Qt.AlignHCenter
-            spacing: 0
-
+            spacing: 8
             CommonBtn {
                 text: "Posição Atual"
                 style: "info"  
-                onClicked: {
-                    PositionController.get_current_pose()
-                }
+                onClicked: PositionController.get_current_pose()
             }
-
-            Item{ Layout.fillWidth: true }
+            Item { Layout.fillWidth: true }
 
             CommonBtn {
                 text: "Mover"
@@ -161,32 +143,21 @@ Popup {
                     )
                 }
             }
-
         }
 
-        Rectangle {
-            height: 1
-            color: '#b8b8b8'
-            Layout.fillWidth: true
-            Layout.margins: 1
-        }
+        Rectangle { height: 1; color: "#b8b8b8"; Layout.fillWidth: true }
 
-        RowLayout{
-            id: buttonsControllers
+        RowLayout {
             Layout.fillWidth: true
-            Layout.alignment: Qt.AlignHCenter  
             spacing: 0
-
             CommonBtn {
                 text: "Cancelar"
                 style: "danger"
                 onClicked: toast.close()
             }
-
             CommonBtn { 
                 text: mainButtonText
                 style: "success"
-
                 onClicked: {
                     if (textInput.text.length === 0) return
                     mainButtonClicked()  
@@ -196,4 +167,3 @@ Popup {
         }
     }
 }
-

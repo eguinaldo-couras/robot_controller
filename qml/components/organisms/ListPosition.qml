@@ -129,7 +129,7 @@ Rectangle {
                 }
 
                 onEditClicked: (id) => {
-                    editPositionPopup.id = id
+                    editPositionPopup.poseId = id
                     editPositionPopup.actualPositionName = name
                     editPositionPopup.positionName = name
                     editPositionPopup.poses = model.poses
