@@ -1,8 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
-import "components/organisms"
-import "pages"
+import core 1.0
 
 ApplicationWindow {
     id: mainWindow

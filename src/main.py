@@ -16,10 +16,6 @@ def main() -> None:
 
     engine.addImportPath(QDir.current().filePath("qml"))
 
-    robot = RobotSingletonRCP("192.168.15.199")
-    robot.RobotEnable(True)
-    robot.DragTeachSwitch(False)
-
     controller = PositionController()
     engine.rootContext().setContextProperty("PositionController", controller)
 

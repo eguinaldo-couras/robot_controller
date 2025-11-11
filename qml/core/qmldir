@@ -1,0 +1,11 @@
+module core
+
+CommonBtn     1.0 buttons/CommonBtn.qml
+IconBtn       1.0 buttons/IconBtn.qml
+
+Tag           1.0 headers/Tag.qml
+Title         1.0 headers/Title.qml
+
+TextInputBar  1.0 inputs/TextInputBar.qml
+
+Sidebar       1.0 sidebar/Sidebar.qml
