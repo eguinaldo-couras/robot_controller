@@ -20,7 +20,7 @@ class PositionController(QObject):
             self.currentPoseLoaded.emit(position_model.as_dict())
 
     @Slot(str, float, float, float, float, float, float)
-    def move_j(self, name, x, y, z, rx, ry, rz): 
+    def move_j(self, name, x, y, z, rx, ry, rz, config): 
         points = PositionModel(
             id=None,
             name=name,
@@ -29,7 +29,8 @@ class PositionController(QObject):
             z=z,
             rx=rx,
             ry=ry,
-            rz=rz
+            rz=rz,
+            config=config
         )
 
         _SERVICE.move(points)
@@ -50,7 +51,7 @@ class PositionController(QObject):
         self.load_poses()
 
     @Slot(str, float, float, float, float, float, float)
-    def save_pose(self, name, x, y, z, rx, ry, rz): 
+    def save_pose(self, name, x, y, z, rx, ry, rz, config): 
         poses = self.repo.get_all_poses()  
         for p in poses:
             if p.name == name:
@@ -65,13 +66,14 @@ class PositionController(QObject):
             rx=rx,
             ry=ry,
             rz=rz,
+            config=config,
             created_at=None
         )
         self.repo.insert_pose(pose)
         self.load_poses()
 
     @Slot( str, str, float, float, float, float, float, float)
-    def update_pose(self,actualName, name, x, y, z, rx, ry, rz):
+    def update_pose(self,actualName, name, x, y, z, rx, ry, rz, config):
 
         if actualName != name:
             poses = self.repo.get_all_poses()  
@@ -87,7 +89,8 @@ class PositionController(QObject):
             z=z,
             rx=rx, 
             ry=ry, 
-            rz=rz
+            rz=rz,
+            config=config
         )
         self.repo.update_pose(pose, actualName)
         self.load_poses()

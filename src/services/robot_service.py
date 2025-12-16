@@ -22,19 +22,26 @@ class RobotService:
             error = result
             x = y = z = rx = ry = rz = 0.0
 
+        config = -1
+        result = robot.GetRobotCurJointsConfig()
+        if(isinstance(result, tuple)): 
+            error, data = result
+            if(error == 0): config = data
+
         ip = ip_result[1] if isinstance(ip_result, tuple) else "0.0.0.0"
 
         return PositionModel(
-            id=None,
-            name='nome do ponto',
-            x=float(x),
-            y=float(y),
-            z=float(z),
-            rx=float(rx),
-            ry=float(ry),
-            rz=float(rz),
-            created_at=timestamp
-        )
+                                id=None,
+                                name='nome do ponto',
+                                x=float(x),
+                                y=float(y),
+                                z=float(z),
+                                rx=float(rx),
+                                ry=float(ry),
+                                rz=float(rz),
+                                config=int(config),
+                                created_at=timestamp
+                            )
         
     def get_sdk_version(self):
         robot = RobotSingletonRCP()
@@ -64,10 +71,12 @@ class RobotService:
                      points.rz
                      ]
         
-        result = robot.GetInverseKin(desc_pos = desc_pos1, type = 0, config = -1)
+        config1 = points.config
+        
+        result = robot.GetInverseKin(desc_pos = desc_pos1, type = 0, config = config1)
         if(isinstance(result, tuple)):
             error, position = result
             if(error != 0): return False
-            success = robot.MoveJ(joint_pos = position, tool = 1, user = 0, vel = 200)
+            success = robot.MoveJ(joint_pos = position, tool = 1, user = 0, vel = 100)
             print("Movendo o robo para a posicao salva", success)
             return bool(success == 0)
