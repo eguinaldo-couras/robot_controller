@@ -7,5 +7,6 @@ CREATE TABLE IF NOT EXISTS cartesian_pose (
   rx         REAL NOT NULL,
   ry         REAL NOT NULL,
   rz         REAL NOT NULL,
+  config     INT NOT NULL,
   created_at TEXT DEFAULT (datetime('now'))
 );

@@ -6,5 +6,6 @@ SET
     z = :z,
     rx = :rx,
     ry = :ry,
-    rz = :rz
+    rz = :rz,
+    config = :config
 WHERE name = :actualName
