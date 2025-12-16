@@ -2,10 +2,12 @@
 name = "robotine-ui"
 version = "0.1.0"
 description = "Interface gráfica QtQuick/QML para controle do robô Fairino"
-requires-python = ">=3.10"
+requires-python = ">=3.10,<3.12"
 
 dependencies = [
-    "PySide6>=6.7.0",
+    "PySide6==6.7.2",
+    "PySide6-Essentials==6.7.2",
+    "PySide6-Addons==6.7.2",
     "python-dotenv",
     "sqlite-utils",
     "requests",
@@ -23,17 +25,19 @@ build-backend = "setuptools.build_meta"
 package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
-where = ["src"]
+where = ["src", "libs"]
 namespaces = true
 
 [tool.pyside6-project]
 files = [
     "main.py",
-    "ui/main.qml",
-    "ui/Components/",
-    "controller/",
+    "qml/App.qml",
+    "qml/controllers/",
+    "qml/components/",
+    "qml/pages/",
+    "controllers/",
     "model/",
     "services/",
     "utils/",
-    "fairino/"
+    "libs/fairino/"
 ]

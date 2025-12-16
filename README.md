@@ -11,9 +11,6 @@ git clone https://github.com/FAIR-INNOVATION/fairino-python-sdk.git
 cd raiz_do_projeto/fairino
 pip install . --no-build-isolation
 
-cd fairino
-pip install . --no-build-isolation
-
 cd ..
 
 python3 src/main.py
