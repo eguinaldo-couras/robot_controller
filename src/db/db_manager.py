@@ -32,19 +32,73 @@ class DB_Manager:
             raise FileNotFoundError(f"SQL file not found: {sql_path}")
         return sql_path.read_text(encoding="utf-8")
 
-    def _get_latest_migration(self) -> Path | None:
+    def _get_all_migrations(self) -> list[Path]:
+        """Retorna todas as migrations ordenadas"""
         migration_files = sorted(self._migrations_dir.glob("*.sql"))
+        return migration_files
+
+    def _get_latest_migration(self) -> Path | None:
+        migration_files = self._get_all_migrations()
         return migration_files[-1] if migration_files else None
+
+    def _column_exists(self, table_name: str, column_name: str) -> bool:
+        if not table_name.replace("_", "").replace("-", "").isalnum():
+            return False
+        if not column_name.replace("_", "").replace("-", "").isalnum():
+            return False
+        
+        with self._connect() as connection:
+            cursor = connection.cursor()
+            cursor.execute(f"PRAGMA table_info({table_name})")
+            columns = cursor.fetchall()
+            return any(col[1] == column_name for col in columns)
 
     def apply_latest_migration(self) -> None:
         latest = self._get_latest_migration()
         if not latest:
             print("[DB] No migration found.")
             return
-        script = latest.read_text(encoding="utf-8")
+        self._apply_migration(latest)
+
+    def apply_all_migrations(self) -> None:
+        """Aplica todas as migrations que ainda não foram aplicadas"""
+        migrations = self._get_all_migrations()
+        if not migrations:
+            print("[DB] No migrations found.")
+            return
+        
+        for migration in migrations:
+            try:
+                self._apply_migration(migration)
+            except sqlite3.OperationalError as e:
+                # Se a coluna já existe, ignora o erro
+                if "duplicate column" in str(e).lower() or "already exists" in str(e).lower():
+                    print(f"[DB] Migration {migration.name} already applied or column exists, skipping...")
+                else:
+                    raise
+
+    def _apply_migration(self, migration_path: Path) -> None:
+        """Aplica uma migration específica"""
+        script = migration_path.read_text(encoding="utf-8")
+        
+        # Verificação especial para migration de adicionar coluna
+        if "ADD COLUMN" in script.upper() and "config" in script:
+            table_name = "cartesian_pose"
+            column_name = "config"
+            if self._column_exists(table_name, column_name):
+                print(f"[DB] Column {column_name} already exists in {table_name}, skipping migration {migration_path.name}")
+                return
+        
         with self._connect() as connection:
-            connection.executescript(script)
-        print(f"[DB] Applied migration: {latest.name}")
+            try:
+                connection.executescript(script)
+                print(f"[DB] Applied migration: {migration_path.name}")
+            except sqlite3.OperationalError as e:
+                # Se a coluna já existe, ignora o erro
+                if "duplicate column" in str(e).lower() or "already exists" in str(e).lower():
+                    print(f"[DB] Migration {migration_path.name} - column already exists, skipping...")
+                else:
+                    raise
 
     def execute(self, sql: str, params: dict[str, Any] | None = None) -> None:
         with self._connect() as connection:
@@ -62,5 +116,5 @@ class DB_Manager:
 
     def init_database(self) -> None:
         print(f"[DB] Starting database: {self._db_path}")
-        self.apply_latest_migration()
+        self.apply_all_migrations()
         print("[DB] Database ready")

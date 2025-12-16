@@ -12,7 +12,6 @@ class RobotController(QObject):
 
     @Slot(result="QVariantList")  # type: ignore
     def get_current_pose(self):
-        
         return self.robotService.get_current_pose()
     
     @Slot(result="QVariantList") # type: ignore

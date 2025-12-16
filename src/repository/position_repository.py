@@ -19,7 +19,8 @@ class PositionRepository:
             "z": pose.z,
             "rx": pose.rx,
             "ry": pose.ry,
-            "rz": pose.rz
+            "rz": pose.rz,
+            "config": pose.config
         })
 
     def delete_all_poses(self) -> None:
@@ -42,5 +43,6 @@ class PositionRepository:
             "z": pose.z,
             "rx": pose.rx,
             "ry": pose.ry,
-            "rz": pose.rz
+            "rz": pose.rz,
+            "config": pose.config
         })

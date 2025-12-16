@@ -4,7 +4,8 @@ INSERT INTO cartesian_pose (
     y, 
     z, 
     rx, 
-    ry, 
+    ry,
+    config,
     rz
 )
 VALUES (
@@ -14,5 +15,6 @@ VALUES (
     :z, 
     :rx, 
     :ry, 
+    :config,
     :rz
 );

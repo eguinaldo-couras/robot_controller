@@ -11,6 +11,7 @@ class PositionModel:
     rx: float = 0
     ry: float = 0
     rz: float = 0
+    config: int = -1
     created_at: Optional[str] = None 
 
     def as_dict(self) -> dict:
