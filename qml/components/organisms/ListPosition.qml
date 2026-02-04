@@ -31,7 +31,13 @@ Rectangle {
                             posZ: pose.z,
                             posRX: pose.rx,
                             posRY: pose.ry,
-                            posRZ: pose.rz
+                            posRZ: pose.rz,
+                            posDX: pose.dx,
+                            posDY: pose.dy,
+                            posDZ: pose.dz,
+                            posDRX: pose.drx,
+                            posDRY: pose.dry,
+                            posDRZ: pose.drz
                         }
                     })
                 } else if (pose.type === "joint") {
@@ -45,7 +51,13 @@ Rectangle {
                             j3: pose.j3,
                             j4: pose.j4,
                             j5: pose.j5,
-                            j6: pose.j6
+                            j6: pose.j6,
+                            dj1: pose.dj1,
+                            dj2: pose.dj2,
+                            dj3: pose.dj3,
+                            dj4: pose.dj4,
+                            dj5: pose.dj5,
+                            dj6: pose.dj6
                         }
                     })
                 }
@@ -106,6 +118,34 @@ Rectangle {
                     parseFloat(poseRXValue),
                     parseFloat(poseRYValue),
                     parseFloat(poseRZValue)
+                )
+            }
+            PositionController.load_poses()
+        }
+    }
+
+    OffsetPopup {
+        id: offsetPopup
+        onSaveClicked: {
+            if (isJointMode) {
+                PositionController.update_joint_offset(
+                    actualPositionName,
+                    parseFloat(dj1Value),
+                    parseFloat(dj2Value),
+                    parseFloat(dj3Value),
+                    parseFloat(dj4Value),
+                    parseFloat(dj5Value),
+                    parseFloat(dj6Value)
+                )
+            } else {
+                PositionController.update_pose_offset(
+                    actualPositionName,
+                    parseFloat(dxValue),
+                    parseFloat(dyValue),
+                    parseFloat(dzValue),
+                    parseFloat(drxValue),
+                    parseFloat(dryValue),
+                    parseFloat(drzValue)
                 )
             }
             PositionController.load_poses()
@@ -194,6 +234,30 @@ Rectangle {
 
                 onDeleteClicked: (itemId) => {
                     PositionController.delete_pose_by_type(name, model.type || "cartesian")
+                }
+
+                onOffsetClicked: (itemId) => {
+                    if (model.type === "joint") {
+                        offsetPopup.openWithJoints(
+                            name,
+                            poses.dj1,
+                            poses.dj2,
+                            poses.dj3,
+                            poses.dj4,
+                            poses.dj5,
+                            poses.dj6
+                        )
+                    } else {
+                        offsetPopup.openWithTcp(
+                            name,
+                            poses.posDX,
+                            poses.posDY,
+                            poses.posDZ,
+                            poses.posDRX,
+                            poses.posDRY,
+                            poses.posDRZ
+                        )
+                    }
                 }
             }
         }

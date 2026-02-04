@@ -19,6 +19,7 @@ Rectangle {
     signal viewClicked(int poseId)
     signal editClicked(int poseId)
     signal deleteClicked(int poseId)
+    signal offsetClicked(int poseId)
 
     RowLayout {
         id: content
@@ -71,6 +72,11 @@ Rectangle {
             IconBtn {
                 iconSource: "../../../assets/icons/edit.png"
                 onClicked: positionItem.editClicked(poseId)
+            }
+
+            IconBtn {
+                iconSource: "../../../assets/icons/settings.png"
+                onClicked: positionItem.offsetClicked(poseId)
             }
 
             IconBtn {
