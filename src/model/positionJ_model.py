@@ -11,6 +11,12 @@ class PositionJModel:
     j4: float = 0
     j5: float = 0
     j6: float = 0
+    dj1: float = 0
+    dj2: float = 0
+    dj3: float = 0
+    dj4: float = 0
+    dj5: float = 0
+    dj6: float = 0
     config: int = -1
     created_at: Optional[str] = None
 

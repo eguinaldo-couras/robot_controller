@@ -4,7 +4,6 @@ from functools import lru_cache
 from contextlib import contextmanager
 from typing import Generator, Any
 
-
 class DB_Manager:
     def __init__(self, db_name: str = "points.db"):
         self._base_dir = Path(__file__).resolve().parent

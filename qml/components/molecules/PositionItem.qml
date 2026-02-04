@@ -40,19 +40,32 @@ Rectangle {
         // Mostrar valores dependendo do tipo
         Repeater {
             model: poseType === "joint" ? [
-                { label: "J1", value: poses ? poses.j1 : 0 },
-                { label: "J2", value: poses ? poses.j2 : 0 },
-                { label: "J3", value: poses ? poses.j3 : 0 },
-                { label: "J4", value: poses ? poses.j4 : 0 },
-                { label: "J5", value: poses ? poses.j5 : 0 },
-                { label: "J6", value: poses ? poses.j6 : 0 }
+                { label: "J1", value: poses ? poses.j1 : 0, color: '#d6ffd7' },
+                { label: "J2", value: poses ? poses.j2 : 0, color: '#d6ffd7' },
+                { label: "J3", value: poses ? poses.j3 : 0, color: '#d6ffd7' },
+                { label: "J4", value: poses ? poses.j4 : 0, color: '#d6ffd7' },
+                { label: "J5", value: poses ? poses.j5 : 0, color: '#d6ffd7' },
+                { label: "J6", value: poses ? poses.j6 : 0, color: '#d6ffd7' },
+                { label: "DJ1", value: poses ? poses.dj1 : 0, color: '#d6e3ff'},
+                { label: "DJ2", value: poses ? poses.dj2 : 0, color: '#d6e3ff'},
+                { label: "DJ3", value: poses ? poses.dj3 : 0, color: '#d6e3ff'},
+                { label: "DJ4", value: poses ? poses.dj4 : 0, color: '#d6e3ff'},
+                { label: "DJ5", value: poses ? poses.dj5 : 0, color: '#d6e3ff'},
+                { label: "DJ6", value: poses ? poses.dj6 : 0, color: '#d6e3ff'},
             ] : [
-                { label: "X", value: poses ? poses.posX : 0 },
-                { label: "Y", value: poses ? poses.posY : 0 },
-                { label: "Z", value: poses ? poses.posZ : 0 },
+                { label: "X", value: poses ? poses.posX : 0, color: '#d6ffd7' },
+                { label: "Y", value: poses ? poses.posY : 0, color: '#d6ffd7' },
+                { label: "Z", value: poses ? poses.posZ : 0, color: '#d6ffd7' },
                 { label: "RX", value: poses ? poses.posRX : 0, color: '#d6ffd7' },
                 { label: "RY", value: poses ? poses.posRY : 0, color: '#d6ffd7' },
-                { label: "RZ", value: poses ? poses.posRZ : 0, color: '#d6ffd7' }
+                { label: "RZ", value: poses ? poses.posRZ : 0, color: '#d6ffd7' },
+
+                { label: "DX", value: poses ? poses.posDX : 0, color: '#d6e3ff' },
+                { label: "DY", value: poses ? poses.posDY : 0, color: '#d6e3ff' },
+                { label: "DZ", value: poses ? poses.posDZ : 0, color: '#d6e3ff' },
+                { label: "DRX", value: poses ? poses.posDRX : 0, color: '#d6e3ff' },
+                { label: "DRY", value: poses ? poses.posDRY : 0, color: '#d6e3ff' },
+                { label: "DRZ", value: poses ? poses.posDRZ : 0, color: '#d6e3ff' },
             ]
             Tag { 
                 text: `${modelData.label}: ${Number(modelData.value || 0).toFixed(2)}`

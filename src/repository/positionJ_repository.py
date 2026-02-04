@@ -20,6 +20,12 @@ class PositionJRepository:
             "j4": pose.j4,
             "j5": pose.j5,
             "j6": pose.j6,
+            "dj1": pose.dj1,
+            "dj2": pose.dj2,
+            "dj3": pose.dj3,
+            "dj4": pose.dj4,
+            "dj5": pose.dj5,
+            "dj6": pose.dj6,
             "config": pose.config
         })
 
@@ -45,4 +51,16 @@ class PositionJRepository:
             "j5": pose.j5,
             "j6": pose.j6,
             "config": pose.config
+        })
+
+    def update_offset(self, pose: PositionJModel, actualName: str) -> None:
+        sql = self.db.load_sql("joints", "update_offset.sql")
+        self.db.execute(sql, {
+            "actualName": actualName,
+            "dj1": pose.dj1,
+            "dj2": pose.dj2,
+            "dj3": pose.dj3,
+            "dj4": pose.dj4,
+            "dj5": pose.dj5,
+            "dj6": pose.dj6
         })

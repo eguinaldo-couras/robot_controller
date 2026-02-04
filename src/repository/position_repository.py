@@ -23,6 +23,12 @@ class PositionRepository:
             "rx": pose.rx,
             "ry": pose.ry,
             "rz": pose.rz,
+            "dx": pose.dx,
+            "dy": pose.dy,
+            "dz": pose.dz,
+            "drx": pose.drx,
+            "dry": pose.dry,
+            "drz": pose.drz,
             "config": pose.config
         })
 
@@ -48,4 +54,16 @@ class PositionRepository:
             "ry": pose.ry,
             "rz": pose.rz,
             "config": pose.config
+        })
+
+    def update_offset(self, pose: PositionModel, actualName: str) -> None:
+        sql = self.db.load_sql("poses", "update_offset.sql")
+        self.db.execute(sql, {
+            "actualName": actualName,
+            "dx": pose.dx,
+            "dy": pose.dy,
+            "dz": pose.dz,
+            "drx": pose.drx,
+            "dry": pose.dry,
+            "drz": pose.drz
         })

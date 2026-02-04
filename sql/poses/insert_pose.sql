@@ -5,8 +5,14 @@ INSERT INTO tcp (
     z, 
     rx, 
     ry,
-    config,
-    rz
+    rz,
+    dx,
+    dy,
+    dz,
+    drx,
+    dry,
+    drz,
+    config
 )
 VALUES (
     :name, 
@@ -15,6 +21,12 @@ VALUES (
     :z, 
     :rx, 
     :ry, 
-    :config,
-    :rz
+    :rz,
+    :dx,
+    :dy,
+    :dz,
+    :drx,
+    :dry,
+    :drz,
+    :config
 );

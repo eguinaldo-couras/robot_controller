@@ -157,9 +157,6 @@ class PositionController(QObject):
 
     @Slot( str, str, float, float, float, float, float, float)
     def update_pose(self,actualName, name, x, y, z, rx, ry, rz):
-        print(f"[POSITION_CONTROLLER] ATUALIZAR - Tipo: CARTESIANO")
-        print(f"[POSITION_CONTROLLER] Nome atual: {actualName}, Novo nome: {name}")
-        print(f"[POSITION_CONTROLLER] Valores: X: {x}, Y: {y}, Z: {z}, RX: {rx}, RY: {ry}, RZ: {rz}")
 
         if actualName != name:
             poses = self.repo.get_all_poses()  
@@ -180,6 +177,22 @@ class PositionController(QObject):
         )
         self.repo.update_pose(pose, actualName)
         print(f"[POSITION_CONTROLLER] Posição cartesiana '{actualName}' atualizada para '{name}' com sucesso")
+        self.load_poses()
+
+    @Slot(str, float, float, float, float, float, float)
+    def update_pose_offset(self, actualName, dx, dy, dz, drx, dry, drz):
+        pose = PositionModel(
+            id=None,
+            name=actualName,
+            dx=dx,
+            dy=dy,
+            dz=dz,
+            drx=drx,
+            dry=dry,
+            drz=drz
+        )
+        self.repo.update_offset(pose, actualName)
+        print(f"[POSITION_CONTROLLER] Offset cartesiano '{actualName}' atualizado com sucesso")
         self.load_poses()
     
     @Slot( str, str, float, float, float, float, float, float)
@@ -207,5 +220,21 @@ class PositionController(QObject):
         )
         self.repoJ.update_pose(pose, actualName)
         print(f"[POSITION_CONTROLLER] Posição de juntas '{actualName}' atualizada para '{name}' com sucesso")
+        self.load_poses()
+
+    @Slot(str, float, float, float, float, float, float)
+    def update_joint_offset(self, actualName, dj1, dj2, dj3, dj4, dj5, dj6):
+        pose = PositionJModel(
+            id=None,
+            name=actualName,
+            dj1=dj1,
+            dj2=dj2,
+            dj3=dj3,
+            dj4=dj4,
+            dj5=dj5,
+            dj6=dj6
+        )
+        self.repoJ.update_offset(pose, actualName)
+        print(f"[POSITION_CONTROLLER] Offset de juntas '{actualName}' atualizado com sucesso")
         self.load_poses()
 

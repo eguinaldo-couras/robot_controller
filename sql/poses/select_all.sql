@@ -7,6 +7,12 @@ SELECT
     rx, 
     ry, 
     rz, 
+    dx,
+    dy,
+    dz,
+    drx,
+    dry,
+    drz,
     config,
     created_at
 FROM tcp
