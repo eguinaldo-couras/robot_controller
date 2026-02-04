@@ -1,1 +1,1 @@
-DELETE FROM joint_pose WHERE name = :name;
+DELETE FROM joint WHERE name = :name;

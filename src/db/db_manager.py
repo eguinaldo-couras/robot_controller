@@ -6,7 +6,7 @@ from typing import Generator, Any
 
 
 class DB_Manager:
-    def __init__(self, db_name: str = "poses.db"):
+    def __init__(self, db_name: str = "points.db"):
         self._base_dir = Path(__file__).resolve().parent
         self._sql_dir = self._base_dir / "../../sql"
         self._migrations_dir = self._sql_dir / "migrations"
@@ -53,6 +53,18 @@ class DB_Manager:
             columns = cursor.fetchall()
             return any(col[1] == column_name for col in columns)
 
+    def _table_exists(self, table_name: str) -> bool:
+        if not table_name.replace("_", "").replace("-", "").isalnum():
+            return False
+
+        with self._connect() as connection:
+            cursor = connection.cursor()
+            cursor.execute(
+                "SELECT 1 FROM sqlite_master WHERE type='table' AND name=?",
+                (table_name,),
+            )
+            return cursor.fetchone() is not None
+
     def apply_latest_migration(self) -> None:
         latest = self._get_latest_migration()
         if not latest:
@@ -85,8 +97,11 @@ class DB_Manager:
         if "ADD COLUMN" in script.upper() and "config" in script:
             table_name = "cartesian_pose"
             column_name = "config"
-            if self._column_exists(table_name, column_name):
-                print(f"[DB] Column {column_name} already exists in {table_name}, skipping migration {migration_path.name}")
+            if self._column_exists(table_name, column_name) or self._column_exists("tcp", column_name):
+                print(f"[DB] Column {column_name} already exists, skipping migration {migration_path.name}")
+                return
+            if not self._table_exists(table_name) and self._table_exists("tcp"):
+                print(f"[DB] Migration {migration_path.name} - table renamed, skipping add column...")
                 return
         
         with self._connect() as connection:
@@ -94,9 +109,19 @@ class DB_Manager:
                 connection.executescript(script)
                 print(f"[DB] Applied migration: {migration_path.name}")
             except sqlite3.OperationalError as e:
+                error_message = str(e).lower()
                 # Se a coluna já existe, ignora o erro
-                if "duplicate column" in str(e).lower() or "already exists" in str(e).lower():
+                if "duplicate column" in error_message or "already exists" in error_message:
                     print(f"[DB] Migration {migration_path.name} - column already exists, skipping...")
+                # Se a tabela não existe em um RENAME, ignora o erro
+                elif "no such table" in error_message and "rename to" in script.lower():
+                    print(f"[DB] Migration {migration_path.name} - table missing, skipping rename...")
+                # Se o destino já existe em um RENAME, ignora o erro
+                elif "another table or index with this name" in error_message and "rename to" in script.lower():
+                    print(f"[DB] Migration {migration_path.name} - target already exists, skipping rename...")
+                # Se a tabela não existe em um ADD COLUMN, ignora o erro
+                elif "no such table" in error_message and "add column" in script.lower():
+                    print(f"[DB] Migration {migration_path.name} - table missing, skipping add column...")
                 else:
                     raise
 

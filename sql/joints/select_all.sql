@@ -9,5 +9,5 @@ SELECT
     j6, 
     config,
     created_at
-FROM joint_pose
+FROM joint
 ORDER BY id DESC;

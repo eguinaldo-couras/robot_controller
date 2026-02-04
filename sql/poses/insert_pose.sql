@@ -1,4 +1,4 @@
-INSERT INTO cartesian_pose (
+INSERT INTO tcp (
     name,
     x, 
     y, 

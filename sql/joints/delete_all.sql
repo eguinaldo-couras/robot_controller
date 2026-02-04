@@ -1,1 +1,1 @@
-DELETE FROM joint_pose;
+DELETE FROM joint;

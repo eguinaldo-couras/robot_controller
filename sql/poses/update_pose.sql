@@ -1,4 +1,4 @@
-UPDATE cartesian_pose
+UPDATE tcp
 SET 
     name = :name,
     x = :x,

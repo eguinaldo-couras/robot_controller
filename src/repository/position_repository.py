@@ -10,6 +10,9 @@ class PositionRepository:
         rows = self.db.fetch_all(sql)
         return [PositionModel(**row) for row in rows]
 
+    def get_all_points(self) -> list[PositionModel]:
+        return self.get_all_poses()
+
     def insert_pose(self, pose: PositionModel) -> None:
         sql = self.db.load_sql("poses", "insert_pose.sql")
         self.db.execute(sql, {
@@ -23,7 +26,7 @@ class PositionRepository:
             "config": pose.config
         })
 
-    def delete_all_poses(self) -> None:
+    def delete_all_points(self) -> None:
         sql = self.db.load_sql("poses", "delete_all.sql")
         self.db.execute(sql)
     

@@ -1,1 +1,1 @@
-DELETE FROM cartesian_pose;
+DELETE FROM tcp;

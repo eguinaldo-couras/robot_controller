@@ -1,4 +1,4 @@
-UPDATE joint_pose
+UPDATE joint
 SET 
     name = :name,
     j1 = :j1,

@@ -9,5 +9,5 @@ SELECT
     rz, 
     config,
     created_at
-FROM cartesian_pose
+FROM tcp
 ORDER BY id DESC;

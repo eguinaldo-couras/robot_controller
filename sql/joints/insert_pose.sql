@@ -1,4 +1,4 @@
-INSERT INTO joint_pose (
+INSERT INTO joint (
     name,
     j1, 
     j2, 

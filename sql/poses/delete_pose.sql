@@ -1,1 +1,1 @@
-DELETE FROM cartesian_pose WHERE name = :name;
+DELETE FROM tcp WHERE name = :name;
