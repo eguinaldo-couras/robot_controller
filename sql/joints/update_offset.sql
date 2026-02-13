@@ -1,9 +1,9 @@
 UPDATE joint
 SET
-    dj1 = :dj1,
-    dj2 = :dj2,
-    dj3 = :dj3,
-    dj4 = :dj4,
-    dj5 = :dj5,
-    dj6 = :dj6
+    dx = :dx,
+    dy = :dy,
+    dz = :dz,
+    drx = :drx,
+    dry = :dry,
+    drz = :drz
 WHERE name = :actualName;

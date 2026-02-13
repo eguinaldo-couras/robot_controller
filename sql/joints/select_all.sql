@@ -7,12 +7,12 @@ SELECT
     j4, 
     j5, 
     j6, 
-    dj1,
-    dj2,
-    dj3,
-    dj4,
-    dj5,
-    dj6,
+    dx,
+    dy,
+    dz,
+    drx,
+    dry,
+    drz,
     config,
     created_at
 FROM joint

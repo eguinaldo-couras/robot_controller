@@ -52,12 +52,12 @@ Rectangle {
                             j4: pose.j4,
                             j5: pose.j5,
                             j6: pose.j6,
-                            dj1: pose.dj1,
-                            dj2: pose.dj2,
-                            dj3: pose.dj3,
-                            dj4: pose.dj4,
-                            dj5: pose.dj5,
-                            dj6: pose.dj6
+                            dx: pose.dx,
+                            dy: pose.dy,
+                            dz: pose.dz,
+                            drx: pose.drx,
+                            dry: pose.dry,
+                            drz: pose.drz
                         }
                     })
                 }
@@ -130,12 +130,12 @@ Rectangle {
             if (isJointMode) {
                 PositionController.update_joint_offset(
                     actualPositionName,
-                    parseFloat(dj1Value),
-                    parseFloat(dj2Value),
-                    parseFloat(dj3Value),
-                    parseFloat(dj4Value),
-                    parseFloat(dj5Value),
-                    parseFloat(dj6Value)
+                    parseFloat(jointDxValue),
+                    parseFloat(jointDyValue),
+                    parseFloat(jointDzValue),
+                    parseFloat(jointDrxValue),
+                    parseFloat(jointDryValue),
+                    parseFloat(jointDrzValue)
                 )
             } else {
                 PositionController.update_pose_offset(
@@ -240,12 +240,12 @@ Rectangle {
                     if (model.type === "joint") {
                         offsetPopup.openWithJoints(
                             name,
-                            poses.dj1,
-                            poses.dj2,
-                            poses.dj3,
-                            poses.dj4,
-                            poses.dj5,
-                            poses.dj6
+                            poses.dx,
+                            poses.dy,
+                            poses.dz,
+                            poses.drx,
+                            poses.dry,
+                            poses.drz
                         )
                     } else {
                         offsetPopup.openWithTcp(

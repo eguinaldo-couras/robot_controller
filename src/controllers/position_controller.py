@@ -223,16 +223,16 @@ class PositionController(QObject):
         self.load_poses()
 
     @Slot(str, float, float, float, float, float, float)
-    def update_joint_offset(self, actualName, dj1, dj2, dj3, dj4, dj5, dj6):
+    def update_joint_offset(self, actualName, dx, dy, dz, drx, dry, drz):
         pose = PositionJModel(
             id=None,
             name=actualName,
-            dj1=dj1,
-            dj2=dj2,
-            dj3=dj3,
-            dj4=dj4,
-            dj5=dj5,
-            dj6=dj6
+            dx=dx,
+            dy=dy,
+            dz=dz,
+            drx=drx,
+            dry=dry,
+            drz=drz
         )
         self.repoJ.update_offset(pose, actualName)
         print(f"[POSITION_CONTROLLER] Offset de juntas '{actualName}' atualizado com sucesso")
